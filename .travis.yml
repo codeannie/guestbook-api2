@@ -2,3 +2,10 @@ language: node_js
 node_js: node
 services:
 - mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure: sa8htva6Hk0VaU4Jr/0VYrDc8xteUrpCIEDXYYEoD06U+1yoJ+fKkSySlg87gqxw8pnGtpy9YmwgP5xKAvwcui8eBengk67T69eIwnYENtDfYbBg85uzknO3hyqzga+JkOyvAOoak5Nypyggp6cYxOJ2OmohyWHutO8uQtxGH+ceGnsS/pgR5KzE9RZmS+eR9rp3V2taU2WelSWK3hZ4dOZn06Ka2j6SNLIluzKV/D0/N64x6vyReUkwSc3uGeYsVFb2Z9Ur9rXbhmNBvVQt1nxR8tc84slgmRSait7DkP+WppwdlxUFTWpu2CPmEJIP6XV2GXnW014rxPGyutBSW056n1BBMmZDZYfK5af/Db2R9JWXmuLvVes81F2XcESUUIIZeSavrzZ8bUNUE4aMxztUdRdfkp8Ot5qtBa1cl6oe9ajn5jN6CMNY5n+xMdpJWZBr6MnHDX1yF15CNDrzTxJL19OC1Y1i1RALTsRZ2frwsvnRIFuhPohhRJdDV6SHf2rstLyjpF4GNuJhjHP7AJ/EuDNVuaPXDlHtqxB4hbouXaa/GU7q+/80B8rN+AfKYam6RGXnp7OXqMN8GIyp9JOdBPCEQ8il1RIhSaoO+DEU4KiKRXVeMcpKUp8OGHpP0pQQcOGc5eiWCNl52y4aeXSwSPOp98+nPy9Wvu6Xy+s=
+  app: serene-ridge-73375
+  on:
+    repo: codeannie/guestbook-api2
