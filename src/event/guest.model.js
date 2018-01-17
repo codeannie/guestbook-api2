@@ -6,7 +6,8 @@ const guestSchema = mongoose.Schema ({
   firstName: {type: String, trim: true, required: true},
   lastName: {type: String, trim: true, required: true},
   email: {type: String, trim: true, required: true},
-  rsvpStatus: {type: Number,  default: 0}, 
+  rsvpStatus: {type: Number,  default: 0}, //required? 
+  emailStatus: {type: Boolean, default: false}, //required?
   plusOne: {type: Number},
   notes: {type: String, trim: true},
   // plusOne: {
@@ -30,6 +31,7 @@ guestSchema.methods.toClient = function() {
     name: `${this.firstName} ${this.lastName}`,
     email: this.email,
     rsvpStatus: this.rsvpStatus,
+    emailStatus: this.emailStatus,
     plusOne: this.plusOne,
     // plusOne: {
     //   needed: this.needed,
