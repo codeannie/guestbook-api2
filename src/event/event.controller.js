@@ -1,17 +1,17 @@
 const { Event } = require('./event.model');
-const { Guest } = require('./guest.model');
-const { eventStatus, guestStatus } = require('./status.enum');
+const { eventStatus } = require('./status.enum');
 // const { ObjectId } = require('mongodb');
 
 // GET ALL EXISTING EVENTS 
 const findExistingEvents = (req, res) => {
+  if(!req.isAuthenticated()) {
+    return res.status(401).json('Not authorized');
+  };
   // find by user id 
   const userId = req.params.userId;
-  // console.log('request? ->', req);
-  console.log('GET endpoint - userId ->', userId);
+  // console.log('GET endpoint - userId ->', userId);
   Event.find({ userId: userId })
     .then(events => {
-      // want to explicitly see the status returned
       return res.status(200).json({
         events: events.map(e => e.toClient())
       });
@@ -26,6 +26,9 @@ const findExistingEvents = (req, res) => {
 
 // GET ALL ACTIVE EVENTS 
 const findActiveEvents = (req, res) => {
+  if(!req.isAuthenticated()) {
+    return res.status(401).json('Not authorized');
+  };
   // find by user id 
   const userId = req.params.userId;
   
@@ -45,6 +48,9 @@ const findActiveEvents = (req, res) => {
 
 // GET ALL PAST EVENTS
 const findPastEvents = (req, res) => {
+  if(!req.isAuthenticated()) {
+    return res.status(401).json('Not authorized');
+  };
   // find by user id 
   const userId = req.params.userId;
 
@@ -64,6 +70,9 @@ const findPastEvents = (req, res) => {
 
 // GET ALL ARCHIVED EVENTS 
 const findArchivedEvents = (req, res) => {
+  if(!req.isAuthenticated()) {
+    return res.status(401).json('Not authorized');
+  };
   // find by user id 
   const userId = req.params.userId;
   
@@ -83,6 +92,9 @@ const findArchivedEvents = (req, res) => {
 
 // CREATE EVENT 
 const createNewEvent = (req, res) => {
+  if(!req.isAuthenticated()) {
+    return res.status(401).json('Not authorized');
+  };
   
   const requiredFields = ['name', 'startDateTime', 'locationName'];
   for (let i = 0; i < requiredFields.length; i++) {
@@ -122,6 +134,10 @@ const createNewEvent = (req, res) => {
 
 // MODIFY EVENT DETAILS (name, date, time, location, etc)
 const modifyEventDetails = (req, res) => {
+  if(!req.isAuthenticated()) {
+    return res.status(401).json('Not authorized');
+  };
+
   const eventId = req.params.eventId;
   const updated = {};
   const updateableFields = ['name', 'description', 'startDateTime', 'endDateTime',
