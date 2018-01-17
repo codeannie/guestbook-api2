@@ -71,7 +71,7 @@ const modifyGuest = (req, res) => {
     }
   });
 
-  Event.findByIdAndUpdate(guestId, { $set: updated }, { new: true })
+  Guest.findByIdAndUpdate(guestId, { $set: updated }, { new: true })
     .then(updatedGuest => res.status(204).end())
     .catch(err =>
       res.status(500).json({

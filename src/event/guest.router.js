@@ -33,3 +33,5 @@ router.delete(
   passport.authenticate('jwt', { session: false }),
   controller.removeGuest
 )
+
+module.exports = router;
