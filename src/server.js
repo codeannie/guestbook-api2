@@ -10,6 +10,7 @@ const { DATABASE_URL, PORT } = require('./config');
 const authRouter = require('./auth/auth.routes');
 const userRouter = require('./user/user.router');
 const eventRouter = require('./event/event.router');
+const guestRouter = require('./event/guest.router');
 
 const { jwtStrategy } = require('./auth/auth.strategies');
 
@@ -50,6 +51,7 @@ mongoose.Promise = global.Promise;
 // app.use('/api/users', userRouter); 
 // this is the base URL to manage
 app.use('/api/events', eventRouter); 
+app.use('/api/guests', guestRouter);
 app.use('/api/auth', authRouter);
 
 let server; 
