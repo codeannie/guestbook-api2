@@ -21,6 +21,8 @@ const createAuthToken = user => {
 
 // SIGN UP AS NEW USER
 const signUpAuth = async (req, res) => {
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
   const email = req.body.email;
   const password = req.body.password;
   const hashedPassword = await User.hashPassword(password);
@@ -37,6 +39,8 @@ const signUpAuth = async (req, res) => {
 
   // create new user
   const newUser = await User.create({
+    firstName,
+    lastName,
     email,
     password: hashedPassword
   });
@@ -76,7 +80,7 @@ const logInAuth = (req, res) => {
       const authToken = createAuthToken(result.user.toClient());
       res.status(200).json({
         meta: "success",
-        userId: result.user._id,
+        user: result.user.toClient(),
         authToken
       });
     })

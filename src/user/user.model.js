@@ -2,6 +2,8 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema ({
+  firstName: {type: String, trim: true, required: true},
+  lastName: {type: String, trim: true, required: true},
   email: {type: String, trim: true, required: true},
   password: {type: String, trim: true, required: true},
 });
@@ -13,7 +15,9 @@ userSchema.virtual('fullName').get(function() {
 
 userSchema.methods.toClient = function () {
   return {
-    id: this._id,   
+    id: this._id, 
+    firstName: this.firstName,
+    lastName: this.lastName,  
     email: this.email,
   };
 }
