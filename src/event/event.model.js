@@ -5,6 +5,7 @@ const eventSchema = mongoose.Schema ({
   userId: {type: String}, //required: true
   name: {type: String, trim: true, required: true},
   description: {type: String, trim: true},
+  date: {type: Date, required: true},
   startDateTime: {type: Date, required: true},
   endDateTime: {type: Date, required: true},
   locationName: {type: String, required: true},
@@ -23,6 +24,7 @@ eventSchema.methods.toClient = function() {
     userId: this.userId,
     name: this.name,
     description: this.description,
+    date: this.date,
     startDateTime: this.startDateTime,
     endDateTime: this.endDateTime,
     locationName: this.locationName,

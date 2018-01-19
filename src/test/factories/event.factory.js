@@ -5,6 +5,7 @@ function createOne(userId) {
     userId: userId,
     name: faker.company.catchPhraseDescriptor(),
     description: faker.hacker.phrase(),
+    date: faker.date.future(),
     startDateTime: faker.date.future(),
     endDateTime: faker.date.future(),
     locationName: faker.hacker.noun(),

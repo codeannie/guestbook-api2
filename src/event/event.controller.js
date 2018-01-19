@@ -112,6 +112,7 @@ const createNewEvent = (req, res) => {
     userId: req.params.userId, // how to capture this? 
     name: req.body.name,
     description: req.body.description,
+    date: req.body.date,
     startDateTime: req.body.startDateTime, 
     endDateTime: req.body.endDateTime, 
     locationName: req.body.locationName,
