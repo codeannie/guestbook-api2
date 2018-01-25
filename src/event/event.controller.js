@@ -96,7 +96,7 @@ const createNewEvent = (req, res) => {
     return res.status(401).json('Not authorized');
   };
   
-  const requiredFields = ['name', 'startDateTime', 'locationName'];
+  const requiredFields = ['name', 'date'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
 
@@ -109,12 +109,12 @@ const createNewEvent = (req, res) => {
   }
 
   Event.create({
-    userId: req.params.userId, // how to capture this? 
+    userId: req.params.userId,
     name: req.body.name,
     description: req.body.description,
     date: req.body.date,
-    startDateTime: req.body.startDateTime, 
-    endDateTime: req.body.endDateTime, 
+    startTime: req.body.startTime, 
+    endTime: req.body.endTime, 
     locationName: req.body.locationName,
     locationAddress: req.body.locationAddress,
     locationLink: req.body.locationLink,

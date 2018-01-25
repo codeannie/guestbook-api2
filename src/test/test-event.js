@@ -81,7 +81,7 @@ describe('events API', function() {
   // GET endpoint
   describe('GET endpoint', function() {
     const expectedKeys = [
-      'name', 'description', 'startDateTime',
+      'name', 'description', 'startTime',
       'locationName', 'locationAddress'
     ]
     it('return all existing events', function() {
@@ -137,7 +137,7 @@ describe('events API', function() {
   // POST endpoint
   describe('POST endpoint', function() {
     const expectedKeys = [
-      'name', 'description', 'startDateTime',
+      'name', 'description', 'date',
       'locationName', 'locationAddress'
     ];
 
