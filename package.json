@@ -1,7 +1,7 @@
 {
-  "name": "guestbook-server",
+  "name": "guestbook-api",
   "version": "1.0.0",
-  "description": "server-side for guestbook app",
+  "description": "api for guestbook app",
   "main": "index.js",
   "scripts": {
     "test": "mocha src/* --exit",
