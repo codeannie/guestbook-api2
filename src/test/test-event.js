@@ -81,7 +81,7 @@ describe('events API', function() {
   // GET endpoint
   describe('GET endpoint', function() {
     const expectedKeys = [
-      'name', 'description', 'startTime',
+      'eventName', 'description', 'startTime',
       'locationName', 'locationAddress'
     ]
     it('return all existing events', function() {
@@ -124,7 +124,7 @@ describe('events API', function() {
         })
         .then(function(event) {
           resEvent.userId.should.equal(event.userId);
-          resEvent.name.should.equal(event.name);
+          resEvent.eventName.should.equal(event.eventName);
           resEvent.description.should.equal(event.description);
           resEvent.locationName.should.equal(event.locationName);
           resEvent.locationAddress.should.equal(event.locationAddress);
@@ -137,7 +137,7 @@ describe('events API', function() {
   // POST endpoint
   describe('POST endpoint', function() {
     const expectedKeys = [
-      'name', 'description', 'date',
+      'eventName', 'description', 'date',
       'locationName', 'locationAddress'
     ];
 
@@ -155,7 +155,7 @@ describe('events API', function() {
           res.should.be.json;
           res.body.should.be.a('object');
           res.body.should.include.keys(expectedKeys);
-          res.body.name.should.equal(newEvent.name);
+          res.body.eventName.should.equal(newEvent.eventName);
           res.body.description.should.equal(newEvent.description);
           res.body.locationName.should.equal(newEvent.locationName);
           res.body.locationAddress.should.equal(newEvent.locationAddress);

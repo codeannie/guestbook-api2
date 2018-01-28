@@ -96,7 +96,7 @@ const createNewEvent = (req, res) => {
     return res.status(401).json('Not authorized');
   };
   
-  const requiredFields = ['name', 'date'];
+  const requiredFields = ['eventName', 'date'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
 
