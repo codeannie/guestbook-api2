@@ -110,7 +110,7 @@ const createNewEvent = (req, res) => {
 
   Event.create({
     userId: req.params.userId,
-    name: req.body.name,
+    eventName: req.body.eventName,
     description: req.body.description,
     date: req.body.date,
     startTime: req.body.startTime, 
@@ -141,7 +141,7 @@ const modifyEventDetails = (req, res) => {
 
   const eventId = req.params.eventId;
   const updated = {};
-  const updateableFields = ['name', 'description', 'startDateTime', 'endDateTime',
+  const updateableFields = ['eventName', 'description', 'startDateTime', 'endDateTime',
     'locationName', 'locationAddress', 'locationLink', 'locationMap'];
   
     updateableFields.forEach(field => {

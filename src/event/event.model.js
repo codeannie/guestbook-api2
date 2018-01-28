@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const eventSchema = mongoose.Schema ({
   userId: {type: String}, //required: true
-  name: {type: String, trim: true, required: true},
+  eventName: {type: String, trim: true, required: true},
   description: {type: String, trim: true},
   date: {type: Date, required: true},
   startTime: {type: Date, required: true},
@@ -22,7 +22,7 @@ eventSchema.methods.toClient = function() {
   return {
     id: this._id,
     userId: this.userId,
-    name: this.name,
+    eventName: this.eventName,
     description: this.description,
     date: this.date,
     startTime: this.startTime,
