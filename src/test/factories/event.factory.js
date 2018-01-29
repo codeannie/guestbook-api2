@@ -1,3 +1,4 @@
+const { format } = require('date-fns');
 const faker = require('faker');
 
 function createOne(userId) {
@@ -5,9 +6,9 @@ function createOne(userId) {
     userId: userId,
     eventName: faker.company.catchPhraseDescriptor(),
     description: faker.hacker.phrase(),
-    date: faker.date.future(),
-    startTime: faker.date.future(),
-    endTime: faker.date.future(),
+    date: format(faker.date.future(), 'MM/DD/YYYY'),
+    startTime: format(faker.date.future(), 'hh:mm A'),
+    endTime: format(faker.date.future(), 'hh:mm A'),
     locationName: faker.hacker.noun(),
     locationAddress: faker.address.streetAddress(),
     eventStatus: 1,
