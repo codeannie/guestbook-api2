@@ -1,4 +1,4 @@
-import { parse } from 'date-fns';
+const { parse } = require('date-fns');
 const { Event } = require('./event.model');
 const { eventStatus } = require('./status.enum');
 // const { ObjectId } = require('mongodb');
