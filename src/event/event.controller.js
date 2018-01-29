@@ -1,3 +1,4 @@
+import { parse } from 'date-fns';
 const { Event } = require('./event.model');
 const { eventStatus } = require('./status.enum');
 // const { ObjectId } = require('mongodb');
@@ -112,9 +113,9 @@ const createNewEvent = (req, res) => {
     userId: req.params.userId,
     eventName: req.body.eventName,
     description: req.body.description,
-    date: req.body.date,
-    startTime: req.body.startTime, 
-    endTime: req.body.endTime, 
+    date: parse(req.body.date),
+    startTime: parse(req.body.startTime), 
+    endTime: parse(req.body.endTime), 
     locationName: req.body.locationName,
     locationAddress: req.body.locationAddress,
     locationLink: req.body.locationLink,

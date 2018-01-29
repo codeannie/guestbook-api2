@@ -5,11 +5,11 @@ const eventSchema = mongoose.Schema ({
   userId: {type: String}, //required: true
   eventName: {type: String, trim: true, required: true},
   description: {type: String, trim: true},
-  date: {type: Date, required: true},
-  startTime: {type: Date, required: true},
-  endTime: {type: Date, required: true},
+  date: {type: String, required: true}, // type: Date
+  startTime: {type: String}, // type: Date, required: true
+  endTime: {type: String}, // type: Date, required: true
   locationName: {type: String, required: true},
-  locationAddress: {type: String, required: true},
+  locationAddress: {type: String, required: true}, 
   locationLink: {type: String, trim: true},
   locationMap: {type: String, trim: true},
   eventStatus: {type: Number, required: true, default: 1}, 
