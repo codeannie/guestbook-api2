@@ -1,14 +1,14 @@
-const { parse } = require('date-fns');
-const { Event } = require('./event.model');
-const { eventStatus } = require('./status.enum');
+const { parse } = require("date-fns");
+const { Event } = require("./event.model");
+const { eventStatus } = require("./status.enum");
 // const { ObjectId } = require('mongodb');
 
-// GET ALL EXISTING EVENTS 
+// GET ALL EXISTING EVENTS
 const findExistingEvents = (req, res) => {
-  if(!req.isAuthenticated()) {
-    return res.status(401).json('Not authorized');
-  };
-  // find by user id 
+  if (!req.isAuthenticated()) {
+    return res.status(401).json("Not authorized");
+  }
+  // find by user id
   const userId = req.params.userId;
   // console.log('GET endpoint - userId ->', userId);
   Event.find({ userId: userId })
@@ -20,20 +20,20 @@ const findExistingEvents = (req, res) => {
     .catch(err => {
       console.log(err);
       res.status(500).json({
-        message: 'internal server error'
+        message: "internal server error"
       });
     });
 };
 
-// GET ALL ACTIVE EVENTS 
+// GET ALL ACTIVE EVENTS
 const findActiveEvents = (req, res) => {
-  if(!req.isAuthenticated()) {
-    return res.status(401).json('Not authorized');
-  };
-  // find by user id 
+  if (!req.isAuthenticated()) {
+    return res.status(401).json("Not authorized");
+  }
+  // find by user id
   const userId = req.params.userId;
-  
-  Event.find({ userId: userId, status: 1})
+
+  Event.find({ userId: userId, status: 1 })
     .then(events => {
       return res.status(200).json({
         events: events.map(e => e.toClient())
@@ -42,20 +42,20 @@ const findActiveEvents = (req, res) => {
     .catch(err => {
       console.log(err);
       res.status(500).json({
-        message: 'internal server error'
+        message: "internal server error"
       });
     });
 };
 
 // GET ALL PAST EVENTS
 const findPastEvents = (req, res) => {
-  if(!req.isAuthenticated()) {
-    return res.status(401).json('Not authorized');
-  };
-  // find by user id 
+  if (!req.isAuthenticated()) {
+    return res.status(401).json("Not authorized");
+  }
+  // find by user id
   const userId = req.params.userId;
 
-  Event.find({ userId: userId, status: 2})
+  Event.find({ userId: userId, status: 2 })
     .then(events => {
       return res.status(200).json({
         events: events.map(e => e.toClient())
@@ -64,20 +64,20 @@ const findPastEvents = (req, res) => {
     .catch(err => {
       console.log(err);
       res.status(500).json({
-        message: 'internal server error'
+        message: "internal server error"
       });
     });
 };
 
-// GET ALL ARCHIVED EVENTS 
+// GET ALL ARCHIVED EVENTS
 const findArchivedEvents = (req, res) => {
-  if(!req.isAuthenticated()) {
-    return res.status(401).json('Not authorized');
-  };
-  // find by user id 
+  if (!req.isAuthenticated()) {
+    return res.status(401).json("Not authorized");
+  }
+  // find by user id
   const userId = req.params.userId;
-  
-  Event.find({ userId: userId, status: 3})
+
+  Event.find({ userId: userId, status: 3 })
     .then(events => {
       return res.status(200).json({
         events: events.map(e => e.toClient())
@@ -86,22 +86,22 @@ const findArchivedEvents = (req, res) => {
     .catch(err => {
       console.log(err);
       res.status(500).json({
-        message: 'internal server error'
+        message: "internal server error"
       });
     });
 };
 
-// CREATE EVENT 
+// CREATE EVENT
 const createNewEvent = (req, res) => {
-  if(!req.isAuthenticated()) {
-    return res.status(401).json('Not authorized');
-  };
-  
-  const requiredFields = ['eventName', 'date'];
+  if (!req.isAuthenticated()) {
+    return res.status(401).json("Not authorized");
+  }
+
+  const requiredFields = ["eventName", "date"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
 
-    // how to send this error to client? 
+    // how to send this error to client?
     if (!(field in req.body)) {
       const message = `Missing \`${field}\` in request body`;
       console.error(message);
@@ -114,11 +114,11 @@ const createNewEvent = (req, res) => {
     eventName: req.body.eventName,
     description: req.body.description,
     date: req.body.date,
-    startTime: req.body.startTime, 
-    endTime: req.body.endTime, 
+    startTime: req.body.startTime,
+    endTime: req.body.endTime,
     // date: parse(req.body.date),
-    // startTime: parse(req.body.startTime), 
-    // endTime: parse(req.body.endTime), 
+    // startTime: parse(req.body.startTime),
+    // endTime: parse(req.body.endTime),
     locationName: req.body.locationName,
     locationAddress: req.body.locationAddress,
     locationLink: req.body.locationLink,
@@ -132,29 +132,37 @@ const createNewEvent = (req, res) => {
     .catch(err => {
       console.error(err);
       res.status(500).json({
-        message: 'internal server error'
+        message: "internal server error"
       });
     });
 };
 
 // MODIFY EVENT DETAILS (name, date, time, location, etc)
 const modifyEventDetails = (req, res) => {
-  if(!req.isAuthenticated()) {
-    return res.status(401).json('Not authorized');
-  };
+  if (!req.isAuthenticated()) {
+    return res.status(401).json("Not authorized");
+  }
 
   const eventId = req.params.eventId;
   const updated = {};
-  const updateableFields = ['eventName', 'description', 'startDateTime', 'endDateTime',
-    'locationName', 'locationAddress', 'locationLink', 'locationMap'];
-  
-    updateableFields.forEach(field => {
-      if(field in req.body) {
-        updated[field] = req.body[field];
-      }
-    });
+  const updateableFields = [
+    "eventName",
+    "description",
+    "startDateTime",
+    "endDateTime",
+    "locationName",
+    "locationAddress",
+    "locationLink",
+    "locationMap"
+  ];
 
-  Event.findByIdAndUpdate(eventId, {$set: updated}, {new: true}) // {$set: updated}?
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      updated[field] = req.body[field];
+    }
+  });
+
+  Event.findByIdAndUpdate(eventId, { $set: updated }, { new: true }) // {$set: updated}?
     .then(updatedEvent => res.status(204).end())
     .catch(err =>
       res.status(500).json({
@@ -163,30 +171,30 @@ const modifyEventDetails = (req, res) => {
     );
 };
 
-// CHANGE EVENT STATUS  
+// CHANGE EVENT STATUS
 const changeEventStatus = (req, res) => {
-  if(!req.isAuthenticated()) {
-    return res.status(401).json('Not authorized');
-  };
-  // find by user id 
+  if (!req.isAuthenticated()) {
+    return res.status(401).json("Not authorized");
+  }
+  // find by user id
   const userId = req.params.userId;
 
   Event.find({ userId: userId })
     // sort documents by date
-    .sort({date: -1 })
+    .sort({ date: -1 })
     .then(sortedEvents => {
-    // compare each document and change status if it's in the past
+      // compare each document and change status if it's in the past
       sortedEvents.forEach(event => {
         const todaysDate = something;
-        if(isBefore(event.date, todaysDate)) {
-          event.update({eventStatus: 2})
+        if (isBefore(event.date, todaysDate)) {
+          event.update({ eventStatus: 2 });
         }
-      })
+      });
     })
     .catch(err => {
       console.log(err);
       res.status(500).json({
-        message: 'internal server error'
+        message: "internal server error"
       });
     });
 };
@@ -198,4 +206,4 @@ module.exports = {
   findPastEvents,
   findArchivedEvents,
   modifyEventDetails
-}
+};
