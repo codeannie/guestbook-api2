@@ -113,9 +113,12 @@ const createNewEvent = (req, res) => {
     userId: req.params.userId,
     eventName: req.body.eventName,
     description: req.body.description,
-    date: parse(req.body.date),
-    startTime: parse(req.body.startTime), 
-    endTime: parse(req.body.endTime), 
+    date: req.body.date,
+    startTime: req.body.startTime, 
+    endTime: req.body.endTime, 
+    // date: parse(req.body.date),
+    // startTime: parse(req.body.startTime), 
+    // endTime: parse(req.body.endTime), 
     locationName: req.body.locationName,
     locationAddress: req.body.locationAddress,
     locationLink: req.body.locationLink,
@@ -158,6 +161,34 @@ const modifyEventDetails = (req, res) => {
         message: `event couldn't be updated`
       })
     );
+};
+
+// CHANGE EVENT STATUS  
+const changeEventStatus = (req, res) => {
+  if(!req.isAuthenticated()) {
+    return res.status(401).json('Not authorized');
+  };
+  // find by user id 
+  const userId = req.params.userId;
+
+  Event.find({ userId: userId })
+    // sort documents by date
+    .sort({date: -1 })
+    .then(sortedEvents => {
+    // compare each document and change status if it's in the past
+      sortedEvents.forEach(event => {
+        const todaysDate = something;
+        if(isBefore(event.date, todaysDate)) {
+          event.update({eventStatus: 2})
+        }
+      })
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: 'internal server error'
+      });
+    });
 };
 
 module.exports = {
