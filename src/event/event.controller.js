@@ -1,4 +1,4 @@
-const { parse } = require("date-fns");
+const { isBefore, startOfToday } = require("date-fns");
 const { Event } = require("./event.model");
 const { eventStatus } = require("./status.enum");
 // const { ObjectId } = require('mongodb');
@@ -55,7 +55,15 @@ const findPastEvents = (req, res) => {
   // find by user id
   const userId = req.params.userId;
 
-  Event.find({ userId: userId, status: 2 })
+  Event.find({
+    // find events older than current date
+    userId: userId,
+    date: { $lt: new Date() } //"$gte": new Date(2018, 1, 1),
+    })
+    .then(pastEvent => {
+    // change eventStatus to 2 (past)
+      pastEvent.update({ eventStatus: 2 });
+    })
     .then(events => {
       return res.status(200).json({
         events: events.map(e => e.toClient())
@@ -116,16 +124,16 @@ const createNewEvent = (req, res) => {
     date: req.body.date,
     startTime: req.body.startTime,
     endTime: req.body.endTime,
-    // date: parse(req.body.date),
-    // startTime: parse(req.body.startTime),
-    // endTime: parse(req.body.endTime),
     locationName: req.body.locationName,
     locationAddress: req.body.locationAddress,
     locationLink: req.body.locationLink,
     locationMap: req.body.locationMap,
+    createdDate: new Date(),
     // guestIds - how to handle guests?
-    createdDate: new Date()
-  })
+    // date: parse(req.body.date),
+    // startTime: parse(req.body.startTime),
+    // endTime: parse(req.body.endTime),
+    })
     .then(event => {
       res.status(201).json(event.toClient());
     })
@@ -148,8 +156,9 @@ const modifyEventDetails = (req, res) => {
   const updateableFields = [
     "eventName",
     "description",
-    "startDateTime",
-    "endDateTime",
+    "date",
+    "startTime",
+    "endTime",
     "locationName",
     "locationAddress",
     "locationLink",
@@ -171,21 +180,52 @@ const modifyEventDetails = (req, res) => {
     );
 };
 
-// CHANGE EVENT STATUS
-const changeEventStatus = (req, res) => {
-  if (!req.isAuthenticated()) {
-    return res.status(401).json("Not authorized");
-  }
-  // find by user id
-  const userId = req.params.userId;
+module.exports = {
+  createNewEvent,
+  findExistingEvents,
+  findActiveEvents,
+  findPastEvents,
+  findArchivedEvents,
+  modifyEventDetails
+};
 
+/*
+
+db.events.find(
+  //query today up to tonight
+  { date: { $gte: new Date(2012, 7, 14), $lt: new Date(2012, 7, 15) } }
+);
+
+// CHANGE EVENT STATUS TO PAST (function)
+const changeEventStatusPast = userId => {
   Event.find({ userId: userId })
     // sort documents by date
     .sort({ date: -1 })
     .then(sortedEvents => {
       // compare each document and change status if it's in the past
       sortedEvents.forEach(event => {
-        const todaysDate = something;
+        const todaysDate = startOfToday();
+        if (isBefore(event.date, todaysDate)) {
+          event.update({ eventStatus: 2 });
+        }
+      });
+    });
+};
+
+// CHANGE EVENT STATUS (controller)
+const changeEventStatus = (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json("Not authorized");
+  }
+  // find by user id
+  const userId = req.params.userId;
+  Event.find({ userId: userId })
+    // sort documents by date
+    .sort({ date: -1 })
+    .then(sortedEvents => {
+      // compare each document and change status if it's in the past
+      sortedEvents.forEach(event => {
+        const todaysDate = startOfToday();
         if (isBefore(event.date, todaysDate)) {
           event.update({ eventStatus: 2 });
         }
@@ -199,11 +239,4 @@ const changeEventStatus = (req, res) => {
     });
 };
 
-module.exports = {
-  createNewEvent,
-  findExistingEvents,
-  findActiveEvents,
-  findPastEvents,
-  findArchivedEvents,
-  modifyEventDetails
-};
+*/
