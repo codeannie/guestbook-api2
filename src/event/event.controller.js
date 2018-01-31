@@ -58,11 +58,11 @@ const findPastEvents = (req, res) => {
   Event.find({
     // find events older than current date
     userId: userId,
-    date: { $lt: new Date() } //"$gte": new Date(2018, 1, 1),
+    date: { $lt: new Date().toISOString() }
     })
     .then(pastEvent => {
     // change eventStatus to 2 (past)
-      pastEvent.update({ eventStatus: 2 });
+      pastEvent.updateMany({$set: { eventStatus: 2 }}); //or updateOne
     })
     .then(events => {
       return res.status(200).json({
@@ -172,7 +172,11 @@ const modifyEventDetails = (req, res) => {
   });
 
   Event.findByIdAndUpdate(eventId, { $set: updated }, { new: true }) // {$set: updated}?
-    .then(updatedEvent => res.status(204).end())
+    .then(updatedEvent => {
+      res.status(204)
+      .json(updatedEvent.toClient())
+      .end()
+    })
     .catch(err =>
       res.status(500).json({
         message: `event couldn't be updated`
