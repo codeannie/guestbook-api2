@@ -10,8 +10,7 @@ const findExistingEvents = (req, res) => {
   }
   // find by user id
   const userId = req.params.userId;
-  // console.log('GET endpoint - userId ->', userId);
-  Event.find({ userId: userId }, null, {sort: {date: -1}})
+  Event.find({ userId: userId }, null, {sort: {date: 1}})
     .then(events => {
       return res.status(200).json({
         events: events.map(e => e.toClient())
