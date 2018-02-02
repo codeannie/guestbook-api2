@@ -6,7 +6,7 @@ const TEST_DATABASE_URL = process.env.TEST_DATABASE_URL ||
                           'mongodb://localhost/test-guestbook';
 
 const PORT = process.env.PORT || 8080;
-const JWT_SECRET = process.env.JWT_SECRET; //'ManageGuestbook2017';
+const JWT_SECRET = 'ManageGuestbook2017';
 const JWT_EXPIRY = process.env.JWT_EXPIRY || '7d';
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || 'http://localhost:3000';
 
