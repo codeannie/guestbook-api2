@@ -1,18 +1,15 @@
-// switch to imports? 
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
-
 const { DATABASE_URL, PORT } = require('./config');
-
 const authRouter = require('./auth/auth.routes');
 const userRouter = require('./user/user.router');
 const eventRouter = require('./event/event.router');
 const guestRouter = require('./event/guest.router');
-
 const { jwtStrategy } = require('./auth/auth.strategies');
+const { CLIENT_ORIGIN } = require('./config');
 
 // create new express app
 const app = express(); 
@@ -23,7 +20,6 @@ const app = express();
 // if have to access different domain names to access, 
 // i.e guestbook.com can access all apps 
 const cors = require('cors');
-const { CLIENT_ORIGIN } = require('./config');
 
 // this applies CORS policy globally to every end point
 // client origin - does the request origin match the client orgin?
@@ -32,7 +28,7 @@ const { CLIENT_ORIGIN } = require('./config');
 // this will come from netlify = client origin 
 app.use(
     cors({
-        origin: CLIENT_ORIGIN
+      origin: CLIENT_ORIGIN
     })
 );
 
