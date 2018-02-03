@@ -26,10 +26,19 @@ const cors = require('cors');
 // does it come from guestbook.com and then if it does, it keeps going
 // if it comes from another origin, CORS will say you don't have access 
 // this will come from netlify = client origin 
+const whiteList = ['http://localhost:3000', CLIENT_ORIGIN];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
 app.use(
-    cors({
-      origin: CLIENT_ORIGIN
-    })
+    cors(corsOptions)
 );
 
 // use these middleware for the app
