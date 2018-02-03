@@ -59,15 +59,10 @@ const findPastEvents = (req, res) => {
     userId: userId,
     date: { $lt: new Date().toISOString() }
     })
-    .then(pastEvent => {
-    // change eventStatus to 2 (past)
-      pastEvent.updateMany({$set: { eventStatus: 2 }}); //or updateOne
-    })
-    .then(events => {
-      return res.status(200).json({
-        events: events.map(e => e.toClient())
-      });
-    })
+    .then(pastEvents => {
+      return res.json({
+        events: pastEvents.map(event => event.toClient())
+      })
     .catch(err => {
       console.log(err);
       res.status(500).json({
