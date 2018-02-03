@@ -68,8 +68,7 @@ const findPastEvents = (req, res) => {
       res.status(500).json({
         message: "internal server error"
       });
-    });
-};
+  });
 
 // GET ALL ARCHIVED EVENTS
 const findArchivedEvents = (req, res) => {
