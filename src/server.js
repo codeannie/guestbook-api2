@@ -29,7 +29,7 @@ const cors = require('cors');
 const whiteList = ['http://localhost:3000', CLIENT_ORIGIN];
 const corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    if (whiteList.indexOf(origin) !== -1) {
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))
