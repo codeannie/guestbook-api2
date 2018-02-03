@@ -63,12 +63,14 @@ const findPastEvents = (req, res) => {
       return res.json({
         events: pastEvents.map(event => event.toClient())
       })
+    })
     .catch(err => {
       console.log(err);
       res.status(500).json({
         message: "internal server error"
       });
-  });
+    });
+};
 
 // GET ALL ARCHIVED EVENTS
 const findArchivedEvents = (req, res) => {
@@ -185,55 +187,3 @@ module.exports = {
   findArchivedEvents,
   modifyEventDetails
 };
-
-/*
-
-db.events.find(
-  //query today up to tonight
-  { date: { $gte: new Date(2012, 7, 14), $lt: new Date(2012, 7, 15) } }
-);
-
-// CHANGE EVENT STATUS TO PAST (function)
-const changeEventStatusPast = userId => {
-  Event.find({ userId: userId })
-    // sort documents by date
-    .sort({ date: -1 })
-    .then(sortedEvents => {
-      // compare each document and change status if it's in the past
-      sortedEvents.forEach(event => {
-        const todaysDate = startOfToday();
-        if (isBefore(event.date, todaysDate)) {
-          event.update({ eventStatus: 2 });
-        }
-      });
-    });
-};
-
-// CHANGE EVENT STATUS (controller)
-const changeEventStatus = (req, res) => {
-  if (!req.isAuthenticated()) {
-    return res.status(401).json("Not authorized");
-  }
-  // find by user id
-  const userId = req.params.userId;
-  Event.find({ userId: userId })
-    // sort documents by date
-    .sort({ date: -1 })
-    .then(sortedEvents => {
-      // compare each document and change status if it's in the past
-      sortedEvents.forEach(event => {
-        const todaysDate = startOfToday();
-        if (isBefore(event.date, todaysDate)) {
-          event.update({ eventStatus: 2 });
-        }
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        message: "internal server error"
-      });
-    });
-};
-
-*/
