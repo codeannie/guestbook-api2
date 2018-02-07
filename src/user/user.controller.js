@@ -1,5 +1,4 @@
 const { User } = require('./user.model');
-// import User from './user.model';
 
 // GET ALL USERS
 const getAllUsers = (req, res) => {
@@ -31,11 +30,6 @@ const createNewUser = (req, res) => {
       res.status(500).json({ message: "internal server error" });        
     });
 };
-
-// export default { 
-//   createNewUser, 
-//   getAllUsers 
-// };
 
 module.exports = {
   getAllUsers,
