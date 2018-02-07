@@ -1,7 +1,6 @@
 const { isBefore, startOfToday } = require("date-fns");
 const { Event } = require("./event.model");
 const { eventStatus } = require("./status.enum");
-// const { ObjectId } = require('mongodb');
 
 // GET ALL EXISTING EVENTS
 const findExistingEvents = (req, res) => {
@@ -10,6 +9,7 @@ const findExistingEvents = (req, res) => {
   }
   // find by user id
   const userId = req.params.userId;
+  // find and sort date ascending 
   Event.find({ userId: userId }, null, {sort: {date: 1}})
     .then(events => {
       return res.status(200).json({
@@ -124,10 +124,6 @@ const createNewEvent = (req, res) => {
     locationLink: req.body.locationLink,
     locationMap: req.body.locationMap,
     createdDate: new Date(),
-    // guestIds - how to handle guests?
-    // date: parse(req.body.date),
-    // startTime: parse(req.body.startTime),
-    // endTime: parse(req.body.endTime),
     })
     .then(event => {
       res.status(201).json(event.toClient());
@@ -166,7 +162,7 @@ const modifyEventDetails = (req, res) => {
     }
   });
 
-  Event.findByIdAndUpdate(eventId, { $set: updated }, { new: true }) // {$set: updated}?
+  Event.findByIdAndUpdate(eventId, { $set: updated }, { new: true })
     .then(updatedEvent => {
       res.status(204)
       .json(updatedEvent.toClient())

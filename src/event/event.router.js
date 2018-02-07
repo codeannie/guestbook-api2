@@ -8,7 +8,7 @@ router.use(bodyParser.json());
 
 // GET ALL EVENTS FROM USER 
 router.get(
-  '/:userId',  // should this be more specific? 
+  '/:userId',
   passport.authenticate('jwt', { session: false }),
   controller.findExistingEvents
 );
@@ -48,8 +48,4 @@ router.put(
   controller.modifyEventDetails
 );
 
-// PUT - send an array of guest objects
-// first last name email
-// array of 3 properties
-// save onto the event property
 module.exports = router; 

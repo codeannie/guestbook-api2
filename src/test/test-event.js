@@ -21,9 +21,7 @@ function tearDownDb() {
   console.warn('deleting test database');
   return mongoose.connection
     .collections['events'].deleteMany({}) //this returns a promise
-    // .dropDatabase()
     .then(() => 
-    // without {} means it auto returns; only 1 line statement
       mongoose.connection
       .collections['users'].deleteMany({})
     )
@@ -104,12 +102,9 @@ describe('events API', function() {
         .get(`/api/events/${testUser._id}`) 
         .set('Authorization', `Bearer ${mockJwt}`)
         .then(function(res) {
-          // console.log('return keys, check res ->', res.body);
-          // console.log('return expected keys ->', resEvent);
           res.should.have.status(200);
           res.should.be.json;
           res.body.events.should.be.a('array');
-          // console.log('res body -> ', res.body.events);
           res.body.events.should.have.lengthOf.at.least(1);
 
           // check each response for expected keys
@@ -128,9 +123,6 @@ describe('events API', function() {
           resEvent.description.should.equal(event.description);
           resEvent.locationName.should.equal(event.locationName);
           resEvent.locationAddress.should.equal(event.locationAddress);
-          // console.log('starttime', resEvent);
-          // time test is failing because it needs to be formatted
-          // resEvent.startDateTime.should.equal(event.startDateTime);
         });
     });
   });
@@ -143,7 +135,6 @@ describe('events API', function() {
 
     it('create a new event', function() {
       const newEvent = eventFactory.createOne(testUser._id);
-      // console.log('create new event->', newEvent);
       
       return chai
         .request(app)

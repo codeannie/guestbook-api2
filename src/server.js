@@ -1,4 +1,5 @@
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
@@ -14,18 +15,7 @@ const { CLIENT_ORIGIN } = require('./config');
 // create new express app
 const app = express(); 
 
-// set up CORS - middleware as 1st one
-// headers that get attached to request 
-// applying general global CORS policy 
-// if have to access different domain names to access, 
-// i.e guestbook.com can access all apps 
-const cors = require('cors');
-
-// this applies CORS policy globally to every end point
-// client origin - does the request origin match the client orgin?
-// does it come from guestbook.com and then if it does, it keeps going
-// if it comes from another origin, CORS will say you don't have access 
-// this will come from netlify = client origin 
+// configure CORS w dynamic origin
 const whiteList = ['http://localhost:3000', CLIENT_ORIGIN];
 const corsOptions = {
   origin: function (origin, callback) {
@@ -44,16 +34,12 @@ app.use(
 // use these middleware for the app
 app.use(morgan('common'));
 app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({extended: true}));
-// app.use(bodyParser.text());                                    
-// app.use(bodyParser.json({ type: 'application/json'}));
 app.use(passport.initialize());
 passport.use(jwtStrategy);
 
 mongoose.Promise = global.Promise;
 
 // establish routes 
-// app.use('/api/users', userRouter); 
 // this is the base URL to manage
 app.use('/api/events', eventRouter); 
 app.use('/api/guests', guestRouter);

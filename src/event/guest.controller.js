@@ -7,7 +7,7 @@ const findExistingGuests = (req, res) => {
     return res.status(401).json('Not authorized');
   };
 
-  const userId = req.params.userId;  //?
+  const userId = req.params.userId;  
   const eventId = req.params.eventId;
   Guest.find({ eventId: eventId })
     .then(guests => {
@@ -24,7 +24,6 @@ const findExistingGuests = (req, res) => {
 }
 // ADD GUESTS 
 const createGuest = (req, res) => {
-  // const userId = req.params.userId;  //?
   const eventId = req.params.eventId;
   const requiredFields = ['firstName', 'lastName', 'email'];
   for (let i = 0; i < requiredFields.length; i++) {

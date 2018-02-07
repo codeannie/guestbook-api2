@@ -1,32 +1,20 @@
 const mongoose = require('mongoose');
 
 const guestSchema = mongoose.Schema ({
-  // userId: {type: String, required: true},
   eventId: {type: String, required: true},
   firstName: {type: String, trim: true, required: true},
   lastName: {type: String, trim: true, required: true},
   email: {type: String, trim: true, required: true},
-  rsvpStatus: {type: Number,  default: 0}, //required? 
-  emailStatus: {type: Boolean, default: false}, //required?
+  rsvpStatus: {type: Number,  default: 0},
+  emailStatus: {type: Boolean, default: false},
   plusOne: {type: Number},
   notes: {type: String, trim: true},
-  // plusOne: {
-  //   needed: {type: Boolean, default: false},
-  //   number: {type: Number }, //default: 0 ?
-  //   name: [ 
-  //     { 
-  //     firstName: {type: String, trim: true}, //required? 
-  //     lastName: {type: String, trim: true}, //required?
-  //     }
-  //   ]
-  // },
   createdDate: {type: Date, required: true}, 
 });
 
 guestSchema.methods.toClient = function() {
   return {
     id: this._id,
-    // userId: this.userId,
     eventId: this.eventId,
     fullName: `${this.firstName} ${this.lastName}`,
     firstName: this.firstName,
@@ -35,11 +23,6 @@ guestSchema.methods.toClient = function() {
     rsvpStatus: this.rsvpStatus,
     emailStatus: this.emailStatus,
     plusOne: this.plusOne,
-    // plusOne: {
-    //   needed: this.needed,
-    //   number: this.number, //default: 0 ?
-    //   name: `${this.plusOne.firstName} ${this.plusOne.lastName}`
-    //   },
     note: this.notes,
     createdDate: {type: Date, required: true}, 
     }
@@ -52,5 +35,3 @@ guestSchema.virtual('fulllName').get(function() {
 const Guest = mongoose.model('Guest', guestSchema);
 
 module.exports = { Guest };
-
-// export default Guest; 
